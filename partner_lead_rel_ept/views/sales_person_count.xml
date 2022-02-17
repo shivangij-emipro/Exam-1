@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="sales_person_count_tree_view" model="ir.ui.view">
+        <field name="name">salesperson.lead.count.tree.view</field>
+        <field name="model">salesperson.lead.count</field>
+        <field name="arch" type="xml">
+            <tree string="Salespersons">
+                <field name="user_id"/>
+                <field name="number_of_pipeline"/>
+                <field name="Total_revenue"/>
+                <field name="number_of_quotations"/>
+                <field name="number_of_sale_order"/>
+                <field name="total_amount"/>
+                <field name="percentage"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="sales_person_count_search_view" model="ir.ui.view">
+        <field name="name">salesperson.lead.count.search.view</field>
+        <field name="model">salesperson.lead.count</field>
+        <field name="arch" type="xml">
+            <search string="Salesperson Details">
+                <field name="user_id"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_sales_person_count" model="ir.actions.act_window">
+        <field name="name">Customer Details</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">salesperson.lead.count</field>
+        <field name="view_mode">tree</field>
+        <field name="search_view_id" ref="sales_person_count_search_view"/>
+        <field name="help" type="html">
+            <p>
+                Here you can enter the details about Salesperson
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="sales_person_count_sub_menu"
+              name="My Salesperson Details"
+              parent="partner_lead_rel_ept_menu"
+              action="action_sales_person_count"/>
+</odoo>

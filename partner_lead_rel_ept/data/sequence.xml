@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data noupdate="0">
+        <record id="seq_partner_lead_rel_ept" model="ir.sequence">
+            <field name="name">Partner Lead Rel Ept</field>
+            <field name="code">partner.lead.rel.ept</field>
+            <field name="prefix">Seq</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</odoo>

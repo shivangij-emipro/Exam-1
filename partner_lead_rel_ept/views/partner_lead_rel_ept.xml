@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="partner_lead_rel_ept_tree_view" model="ir.ui.view">
+        <field name="name">partner.lead.rel.ept.tree.view</field>
+        <field name="model">partner.lead.rel.ept</field>
+        <field name="arch" type="xml">
+            <tree string="Customers" decoration-success="total_revenue >= 10000">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="from_date"/>
+                <field name="to_date"/>
+                <field name="total_revenue"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="partner_lead_rel_ept_form_view" model="ir.ui.view">
+        <field name="name">partner.lead.rel.ept.form.view</field>
+        <field name="model">partner.lead.rel.ept</field>
+        <field name="arch" type="xml">
+            <form string="Customer Details">
+                <header>
+                    <button name="get_pipeline_details" string="Get Pipeline Details"
+                            class="btn-primary" type="object"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="view_leads" type="object"
+                                class="oe_stat_button" icon="fa-arrow-right text-primary">
+                            <div class="o_field_widget o_stat_info">
+                                <field name="pipelines_count" widget="statinfo" nolabel="1" class="mr4"/>
+                                <span class="o_stat_text">Pipelines</span>
+                            </div>
+                        </button>
+                        <button name="view_paid_orders" type="object"
+                                class="oe_stat_button" icon="fa-truck icon">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text">Sale orders</span>
+                            </div>
+                        </button>
+                    </div>
+                    <div>
+                        <group>
+                            <group>
+                                <field name="name" placeholder="Name..."/>
+                                <field name="from_date" placeholder="From Date..."/>
+                            </group>
+                            <group>
+                                <field name="to_date" placeholder="To Date..."/>
+                                <field name="partner_id" placeholder="Partner..." domain="[('is_company','=',True)]"/>
+                                <field name="total_revenue" placeholder="Total Revenue..."/>
+                            </group>
+                        </group>
+                    </div>
+                    <div>
+                        <notebook>
+                            <page string="Contacts">
+                                <field name="partner_contact_ids" domain="[('parent_id','=',partner_id)]">
+                                    <tree>
+                                        <field name="display_name"/>
+                                        <field name="phone"/>
+                                        <field name="email"/>
+                                        <field name="user_id"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Leads">
+                                <field name="lead_ids">
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="contact_name"/>
+                                        <field name="phone"/>
+                                        <field name="email_from"/>
+                                        <field name="expected_revenue"/>
+                                        <field name="stage_id"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Sales persons">
+                                <field name="salesperson_lead_count_ids">
+                                    <tree>
+                                        <field name="user_id"/>
+                                        <field name="saleperson_lead_id"/>
+                                        <field name="number_of_pipeline"/>
+                                        <field name="Total_revenue"/>
+                                        <field name="number_of_quotations"/>
+                                        <field name="number_of_sale_order"/>
+                                        <field name="total_amount"/>
+                                        <field name="percentage"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </div>
+                </sheet>
+                <sheet>
+                    <footer>
+                        <div class="oe_chatter">
+                            <field name="message_follower_ids"/>
+                            <field name="activity_ids"/>
+                            <field name="message_ids"/>
+                        </div>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id='partner_lead_rel_ept_kanban_view' model='ir.ui.view'>
+        <field name="name">partner.lead.rel.ept.kanban</field>
+        <field name="model">partner.lead.rel.ept</field>
+        <field name="arch" type="xml">
+            <kanban string="Customers">
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_details">
+                            <div>
+                                <strong>
+                                    <field name="name"/>
+                                </strong>
+                            </div>
+                            <div>
+                                <field name="partner_id"/>
+                            </div>
+                            <div>
+                                <field name="from_date"/>
+                            </div>
+                            <div>
+                                <field name="to_date"/>
+                            </div>
+                            <div>
+                                <field name="total_revenue"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+
+    <record id="partner_lead_rel_ept_search_view" model="ir.ui.view">
+        <field name="name">partner.lead.rel.ept.search.view</field>
+        <field name="model">partner.lead.rel.ept</field>
+        <field name="arch" type="xml">
+            <search string="Customer Details">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <group expand="0" string="Group By">
+                    <filter string="Partners" name="partner_id" domain="[]" context="{'group_by':'partner_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_partner_lead_rel_ept" model="ir.actions.act_window">
+        <field name="name">Customer Details</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">partner.lead.rel.ept</field>
+        <field name="view_mode">tree,form,kanban</field>
+        <field name="search_view_id" ref="partner_lead_rel_ept_search_view"/>
+        <field name="help" type="html">
+            <p>
+                Here you can enter the details about Customers
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="partner_lead_rel_ept_root_menu"
+              name="Customers Details"/>
+
+    <menuitem id="partner_lead_rel_ept_menu"
+              name="Customers Details"
+              parent="partner_lead_rel_ept_root_menu"/>
+
+    <menuitem id="partner_lead_rel_ept_sub_menu"
+              name="My Customers Details"
+              parent="partner_lead_rel_ept_menu"
+              action="action_partner_lead_rel_ept"/>
+
+
+</odoo>
